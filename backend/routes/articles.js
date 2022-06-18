@@ -47,21 +47,61 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/art_id/:art_id', async (req, res) => {
-  const art_id = req.params.art_id;
+  try {
+    const art_id = req.params.art_id;
 
-  if (!art_id) {
-    return res.status(400).json({ error: 'No article id provided' });
+    if (!art_id) {
+      return res.status(400).json({ error: 'No article id provided' });
+    }
+
+    const article = await Article.findOne({ art_id });
+
+    if (!article) {
+      return res
+        .status(400)
+        .json({ error: 'An article with that article id does not exist' });
+    }
+
+    return res.json({ article });
+  } catch {
+    return res.status(404).json({ error: 'Error while fetching an article' });
   }
+});
 
-  const article = await Article.findOne({ art_id });
+router.patch('/art_id/:art_id', async (req, res) => {
+  try {
+    const articleId = req.params.art_id;
 
-  if (!article) {
-    return res
-      .status(400)
-      .json({ error: 'An article with that article id does not exist' });
+    if (!articleId) {
+      return res.status(400).json({ error: 'No article id provided' });
+    }
+
+    const { art_id, name, stock } = req.body;
+
+    const article = await Article.findOne({ art_id: articleId });
+
+    if (!article) {
+      return res
+        .status(400)
+        .json({ error: 'An article with that article id does not exist' });
+    }
+
+    if (art_id) {
+      article.art_id = art_id;
+    }
+    if (name) {
+      article.name = name;
+    }
+    if (stock) {
+      article.stock = stock;
+    }
+
+    await article.save();
+
+    return res.json({ article });
+  } catch (error) {
+    return res.status(404).json({ error: 'Error while updating an article' });
   }
-
-  return res.json({ article });
 });
 
 module.exports = router;
