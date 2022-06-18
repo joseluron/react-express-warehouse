@@ -3,7 +3,7 @@ const request = require('supertest');
 const { makeApp } = require('./app');
 const { connect } = require('./db');
 
-const Article = require('./models/Article')
+const Article = require('./models/Article');
 
 describe('Api', () => {
   let app, connection;
@@ -21,7 +21,7 @@ describe('Api', () => {
     afterEach(async () => {
       await Article.collection.drop();
     });
-    
+
     const MOCK_ARTICLE = {
       art_id: 1,
       name: 'Test Article',
@@ -42,7 +42,15 @@ describe('Api', () => {
 
       const res = await request(app).get('/articles');
 
-      expect(res.body.articles.length ).toBe(2);
-    })
+      expect(res.body.articles.length).toBe(2);
+    });
+
+    it('Get a single article', async () => {
+      await request(app).post('/articles').send(MOCK_ARTICLE);
+
+      const res = await request(app).get(`/articles/art_id/1`);
+
+      expect(res.body.article.art_id).toEqual(MOCK_ARTICLE.art_id);
+    });
   });
 });
