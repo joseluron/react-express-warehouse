@@ -52,5 +52,15 @@ describe('Api', () => {
 
       expect(res.body.article.art_id).toEqual(MOCK_ARTICLE.art_id);
     });
+
+    it('Updates an article', async () => {
+      await request(app).post('/articles').send(MOCK_ARTICLE);
+
+      const res = await request(app)
+        .patch(`/articles/art_id/1`)
+        .send({ stock: 12345 });
+
+      expect(res.body.article.stock).toEqual(12345);
+    });
   });
 });
