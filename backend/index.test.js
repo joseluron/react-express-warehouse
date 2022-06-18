@@ -1,19 +1,39 @@
 const request = require('supertest');
 
 const { makeApp } = require('./app');
+const { connect } = require('./db');
+
+const Article = require('./models/Article')
 
 describe('Api', () => {
-  let app;
+  let app, connection;
 
   beforeAll(async () => {
+    connection = await connect();
     app = makeApp();
   });
 
-  describe('Hello World!', () => {
-    it('Show welcome message', async () => {
-      const res = await request(app).get('/');
+  afterAll(async () => {
+    await connection.close();
+  });
 
-      expect(res.text).toEqual('Welcome to react-express-warehouse');
+  describe('Articles', () => {
+    afterEach(async () => {
+      await Article.collection.drop();
+    });
+    
+    const MOCK_ARTICLE = {
+      art_id: 1,
+      name: 'Test Article',
+      stock: 1234,
+    };
+
+    it('Creates an article', async () => {
+      const res = await request(app).post('/articles').send(MOCK_ARTICLE);
+
+      expect(res.body.message).toEqual(
+        `Article ${MOCK_ARTICLE.art_id} created successfully`,
+      );
     });
   });
 });
