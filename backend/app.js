@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 
+const articlesRoutes = require('./routes/articles');
+
 const makeApp = () => {
   const app = express();
 
@@ -12,6 +14,8 @@ const makeApp = () => {
   app.get('/', async (req, res) => {
     await res.send('Welcome to react-express-warehouse');
   });
+  
+  app.use('/articles', articlesRoutes);
 
   return app;
 };
