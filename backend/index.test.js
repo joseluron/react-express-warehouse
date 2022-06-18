@@ -62,5 +62,15 @@ describe('Api', () => {
 
       expect(res.body.article.stock).toEqual(12345);
     });
+
+    it('Deletes an article', async () => {
+      await request(app).post('/articles').send(MOCK_ARTICLE);
+
+      const res = await request(app).delete(`/articles/art_id/1`);
+
+      expect(res.body.message).toEqual(
+        `Article ${MOCK_ARTICLE.art_id} deleted successfully`,
+      );
+    });
   });
 });
