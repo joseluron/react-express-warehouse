@@ -32,4 +32,18 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const articles = await Article.find();
+
+    if (!articles.length) {
+      return res.status(400).json({ error: 'No articles found' });
+    }
+
+    return res.json({ articles });
+  } catch {
+    return res.status(404).json({ error: 'Error while fetching all articles' });
+  }
+});
+
 module.exports = router;
