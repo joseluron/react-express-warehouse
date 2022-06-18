@@ -35,5 +35,14 @@ describe('Api', () => {
         `Article ${MOCK_ARTICLE.art_id} created successfully`,
       );
     });
+
+    it('Gets all articles', async () => {
+      await request(app).post('/articles').send(MOCK_ARTICLE);
+      await request(app).post('/articles').send(MOCK_ARTICLE);
+
+      const res = await request(app).get('/articles');
+
+      expect(res.body.articles.length ).toBe(2);
+    })
   });
 });
