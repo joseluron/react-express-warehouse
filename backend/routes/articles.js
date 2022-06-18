@@ -46,4 +46,22 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/art_id/:art_id', async (req, res) => {
+  const art_id = req.params.art_id;
+
+  if (!art_id) {
+    return res.status(400).json({ error: 'No article id provided' });
+  }
+
+  const article = await Article.findOne({ art_id });
+
+  if (!article) {
+    return res
+      .status(400)
+      .json({ error: 'An article with that article id does not exist' });
+  }
+
+  return res.json({ article });
+});
+
 module.exports = router;
