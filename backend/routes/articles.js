@@ -98,9 +98,26 @@ router.patch('/art_id/:art_id', async (req, res) => {
 
     await article.save();
 
-    return res.json({ article });
+    return res.json({ message: `Article ${articleId} updated successfully`, article });
   } catch (error) {
     return res.status(404).json({ error: 'Error while updating an article' });
+  }
+});
+
+router.delete('/art_id/:art_id', async (req, res) => {
+  try {
+    const art_id = req.params.art_id;
+
+    if (!art_id) {
+      return res.status(400).json({ error: 'No article id provided' });
+    }
+
+    await Article.deleteOne({ art_id });
+
+    return res.json({ message: `Article ${art_id} deleted successfully` });
+  } catch (err) {
+    console.log('the error', err);
+    return res.status(404).json({ error: 'Error while deleting an article' });
   }
 });
 
