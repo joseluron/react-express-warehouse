@@ -23,13 +23,18 @@ describe('Api', () => {
     });
 
     const MOCK_ARTICLE = {
-      art_id: 1,
+      art_id: '1',
       name: 'Test Article',
-      stock: 1234,
+      stock: '1234',
+    };
+    const MOCK_ARTICLE_2 = {
+      art_id: '2',
+      name: 'Test Article',
+      stock: '1234',
     };
 
     const MOCK_INVENTORY = {
-      inventory: [MOCK_ARTICLE, MOCK_ARTICLE],
+      inventory: [MOCK_ARTICLE, MOCK_ARTICLE_2],
     };
 
     it('Creates an article', async () => {
@@ -50,7 +55,7 @@ describe('Api', () => {
 
     it('Gets all articles', async () => {
       await request(app).post('/articles').send(MOCK_ARTICLE);
-      await request(app).post('/articles').send(MOCK_ARTICLE);
+      await request(app).post('/articles').send(MOCK_ARTICLE_2);
 
       const res = await request(app).get('/articles');
 
@@ -62,7 +67,7 @@ describe('Api', () => {
 
       const res = await request(app).get(`/articles/art_id/1`);
 
-      expect(res.body.article.art_id).toEqual(MOCK_ARTICLE.art_id);
+      expect(res.body.article._id).toEqual(MOCK_ARTICLE.art_id);
     });
 
     it('Updates an article', async () => {
@@ -70,9 +75,9 @@ describe('Api', () => {
 
       const res = await request(app)
         .patch(`/articles/art_id/1`)
-        .send({ stock: 12345 });
+        .send({ stock: '12345' });
 
-      expect(res.body.article.stock).toEqual(12345);
+      expect(res.body.article.stock).toEqual('12345');
     });
 
     it('Deletes an article', async () => {
