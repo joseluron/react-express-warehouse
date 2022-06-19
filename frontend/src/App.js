@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useArticles } from './asyncData/';
 
 function App() {
-  const { addArticles, isLoadingAddArticles } = useArticles();
+  const { addArticles, isLoadingAddArticles, isErrorAddArticles, isSuccessAddArticles } = useArticles();
 
   const [toAddArticles, setToAddArticles] = useState({})
 
@@ -20,6 +20,8 @@ function App() {
       <input disabled={isLoadingAddArticles} type="file" onChange={handleChange} />
       <button disabled={isLoadingAddArticles} onClick={() => addArticles(toAddArticles)}>Add Articles</button>
       {isLoadingAddArticles ? <p>Adding articles</p> : null}
+      {isErrorAddArticles ? <p>Articles could not be created</p> : null}
+      {isSuccessAddArticles ? <p>Articles created successfully</p> : null}
     </div>
   );
 }

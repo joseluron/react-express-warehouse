@@ -7,13 +7,13 @@ export const useArticles = () => {
     mutate: addArticles,
     isLoading: isLoadingAddArticles,
     isError: isErrorAddArticles,
-  } = useMutation(data => createArticles(data), {
-    onSuccess: () => console.log('Added articles successfully'),
-  });
+    isSuccess: isSuccessAddArticles,
+  } = useMutation(data => createArticles(data));
 
   return {
     addArticles,
     isLoadingAddArticles,
-    isErrorAddArticles
-  }
+    isErrorAddArticles,
+    isSuccessAddArticles,
+  };
 };

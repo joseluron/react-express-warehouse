@@ -7,5 +7,5 @@ const buildOptions = () => {
 export const post = async (url, payload) => {
   const res = await axios.post(url, payload, buildOptions);
 
-  return res.data;
+  return res;
 };

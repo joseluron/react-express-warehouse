@@ -33,8 +33,25 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/bulk', async (req, res) => {
-  if (req.body.inventory) {
-    console.log('Recieved inventory: ', req.body.inventory);
+  try {
+    const { inventory } = req.body;
+
+    if (!inventory) {
+      return res.status(400).json({ error: 'Inventory not provided' });
+    }
+
+    return await Article.collection.insertMany(inventory, (err, articles) => {
+      if (err) {
+        return res
+          .status(400)
+          .json({ error: 'The articles could not be created' });
+      }
+      return res.json({ message: 'Articles created successfully', articles });
+    });
+  } catch {
+    return res
+      .status(404)
+      .json({ error: 'Error while creating multiple articles' });
   }
 });
 
