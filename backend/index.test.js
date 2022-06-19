@@ -234,5 +234,17 @@ describe('Api', () => {
 
       expect(res.body.message).toEqual('Product deleted successfully');
     });
+
+    it('Sells a product', async () => {
+      const createdProduct = await request(app)
+        .post('/products')
+        .send(MOCK_PRODUCT);
+
+      const res = await request(app).delete(
+        `/products/sell/product_id/${createdProduct.body.product._id}`,
+      );
+
+      expect(res.body.message).toEqual('Product sold successfully');
+    });
   });
 });
