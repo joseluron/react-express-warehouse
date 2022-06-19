@@ -118,7 +118,18 @@ describe('Api', () => {
     it('Creates a product', async () => {
       const res = await request(app).post('/products').send(MOCK_PRODUCT);
 
-      expect(res.body.message).toEqual(`Product ${MOCK_PRODUCT.name} created successfully`)
+      expect(res.body.message).toEqual(
+        `Product ${MOCK_PRODUCT.name} created successfully`,
+      );
+    });
+
+    it('Gets all products', async () => {
+      await request(app).post('/products').send(MOCK_PRODUCT);
+      await request(app).post('/products').send(MOCK_PRODUCT);
+
+      const res = await request(app).get('/products');
+
+      expect(res.body.products.length).toEqual(2);
     });
   });
 });

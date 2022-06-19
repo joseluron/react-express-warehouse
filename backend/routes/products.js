@@ -6,8 +6,6 @@ router.post('/', async (req, res) => {
   try {
     const { name, contain_articles } = req.body;
 
-    console.log('Body: ', { name, contain_articles });
-
     const errors = [
       !name ? 'Product name not provided' : null,
       !contain_articles
