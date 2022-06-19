@@ -114,6 +114,27 @@ describe('Api', () => {
         },
       ],
     };
+    const MOCK_PRODUCT_2 = {
+      name: 'Test Product 2',
+      contain_articles: [
+        {
+          art_id: '1',
+          amount_of: '4',
+        },
+        {
+          art_id: '2',
+          amount_of: '8',
+        },
+        {
+          art_id: '3',
+          amount_of: '1',
+        },
+      ],
+    };
+
+    const MOCK_PRODUCTS = {
+      products: [MOCK_PRODUCT, MOCK_PRODUCT_2],
+    };
 
     it('Creates a product', async () => {
       const res = await request(app).post('/products').send(MOCK_PRODUCT);
@@ -121,6 +142,14 @@ describe('Api', () => {
       expect(res.body.message).toEqual(
         `Product ${MOCK_PRODUCT.name} created successfully`,
       );
+    });
+
+    it('Creates multiple products', async () => {
+      const res = await request(app)
+        .post('/products/bulk')
+        .send(MOCK_PRODUCTS);
+
+      expect(res.body.message).toEqual('Products created successfully');
     });
 
     it('Gets all products', async () => {
