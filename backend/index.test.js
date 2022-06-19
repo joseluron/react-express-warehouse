@@ -4,6 +4,7 @@ const { makeApp } = require('./app');
 const { connect } = require('./db');
 
 const Article = require('./models/Article');
+const Product = require('./models/Product');
 
 describe('Api', () => {
   let app, connection;
@@ -88,6 +89,36 @@ describe('Api', () => {
       expect(res.body.message).toEqual(
         `Article ${MOCK_ARTICLE.art_id} deleted successfully`,
       );
+    });
+  });
+
+  describe('Products', () => {
+    afterEach(async () => {
+      await Product.collection.drop();
+    });
+
+    const MOCK_PRODUCT = {
+      name: 'Test Product',
+      contain_articles: [
+        {
+          art_id: '1',
+          amount_of: '4',
+        },
+        {
+          art_id: '2',
+          amount_of: '8',
+        },
+        {
+          art_id: '3',
+          amount_of: '1',
+        },
+      ],
+    };
+
+    it('Creates a product', async () => {
+      const res = await request(app).post('/products').send(MOCK_PRODUCT);
+
+      expect(res.body.message).toEqual(`Product ${MOCK_PRODUCT.name} created successfully`)
     });
   });
 });
