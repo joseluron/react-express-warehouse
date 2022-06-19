@@ -1,17 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { AsyncDataProvider } from './asyncData';
+import { AsyncDataProvider } from './asyncData';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AsyncDataProvider>
-      <App />
-    </AsyncDataProvider>
+    <BrowserRouter>
+      <AsyncDataProvider>
+        <App />
+      </AsyncDataProvider>
+    </BrowserRouter>
   </React.StrictMode>,
 );
 
