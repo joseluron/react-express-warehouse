@@ -135,13 +135,25 @@ describe('Api', () => {
     it('Gets a single product', async () => {
       const createdProduct = await request(app)
         .post('/products')
-        .send(MOCK_PRODUCT).body.product;
+        .send(MOCK_PRODUCT);
 
-      const res = await await request(app).get(
-        `/products/product_id/${createdProduct._id}`,
+      const res = await request(app).get(
+        `/products/product_id/${createdProduct.body.product._id}`,
       );
 
-      expect(res.body.product._id).toEqual(createdProduct._id);
+      expect(res.body.product._id).toEqual(createdProduct.body.product._id);
+    });
+
+    it('Updates a product', async () => {
+      const createdProduct = await request(app)
+        .post('/products')
+        .send(MOCK_PRODUCT);
+
+      const res = await request(app)
+        .patch(`/products/product_id/${createdProduct.body.product._id}`)
+        .send({ name: 'New name' });
+
+      expect(res.body.product.name).toEqual('New name');
     });
   });
 });
