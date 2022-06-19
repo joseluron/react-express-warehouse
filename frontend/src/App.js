@@ -14,10 +14,13 @@ function App() {
   } = useArticles();
 
   const {
+    productsData,
+    isLoadingProducts,
+    isErrorProducts,
     addProducts,
     isLoadingAddProducts,
     isErrorAddProducts,
-    isSuccessAddProducts
+    isSuccessAddProducts,
   } = useProducts();
 
   const [toAddArticles, setToAddArticles] = useState({});
@@ -83,6 +86,18 @@ function App() {
         {isLoadingAddProducts ? <p>Adding products</p> : null}
         {isErrorAddProducts ? <p>Products could not be created</p> : null}
         {isSuccessAddProducts ? <p>Products created successfully</p> : null}
+      </div>
+      <div>
+        {!isLoadingProducts && productsData ? (
+          productsData.data.products.map(products => (
+            <p key={products._id}>{products.name}</p>
+          ))
+        ) : (
+          <p>Loading Products</p>
+        )}
+        {isErrorProducts ? (
+          <p>An error ocurred while fetching products</p>
+        ) : null}
       </div>
     </div>
   );
