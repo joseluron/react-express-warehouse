@@ -9,3 +9,9 @@ export const post = async (url, payload) => {
 
   return res;
 };
+
+export const get = async url => {
+  const res = await axios.get(url, buildOptions);
+
+  return res;
+};
