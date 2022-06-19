@@ -103,11 +103,28 @@ router.patch('/product_id/:product_id', async (req, res) => {
 
     await product.save();
 
-    return res.json({ message: `Product ${product._id} updated successfully`, product });
+    return res.json({
+      message: `Product ${product._id} updated successfully`,
+      product,
+    });
   } catch {
-    return res
-      .status(404)
-      .json({ error: 'Error while updating a product' });
+    return res.status(404).json({ error: 'Error while updating a product' });
+  }
+});
+
+router.delete('/product_id/:product_id', async (req, res) => {
+  try {
+    const { product_id } = req.params;
+
+    if (!product_id) {
+      return res.status(400).json({ error: 'No product id provided' });
+    }
+
+    await Product.deleteOne({ product_id });
+
+    res.json({ message: 'Product deleted successfully' });
+  } catch {
+    res.status(404).json({ error: 'Error while deleting a product' });
   }
 });
 
