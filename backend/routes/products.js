@@ -34,6 +34,27 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.post('/bulk', async (req, res) => {
+  try {
+    const { products } = req.body;
+
+    if (!products) {
+      return res.status(400).json({ error: 'Products not provided' });
+    }
+
+    return await Product.collection.insertMany(products, (err, products) => {
+      if (err) {
+        return res
+          .status(400)
+          .json({ error: 'The products could not be created' });
+      }
+      return res.json({ message: 'Products created successfully', products });
+    });
+  } catch {
+    return res.status(404).json({ error: 'Error while creating multiple products' });
+  }
+});
+
 router.get('/', async (req, res) => {
   try {
     const products = await Product.find().populate('contain_articles.art_id');

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useArticles } from './asyncData/';
+import { useArticles, useProducts } from './asyncData/';
 
 function App() {
   const {
@@ -13,12 +13,28 @@ function App() {
     isSuccessAddArticles,
   } = useArticles();
 
+  const {
+    addProducts,
+    isLoadingAddProducts,
+    isErrorAddProducts,
+    isSuccessAddProducts
+  } = useProducts();
+
   const [toAddArticles, setToAddArticles] = useState({});
   const handleChange = e => {
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], 'UTF-8');
     fileReader.onload = e => {
       setToAddArticles(JSON.parse(e.target.result));
+    };
+  };
+
+  const [toAddProducts, setToAddProducts] = useState({});
+  const handleProductsChange = e => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], 'UTF-8');
+    fileReader.onload = e => {
+      setToAddProducts(JSON.parse(e.target.result));
     };
   };
 
@@ -48,7 +64,25 @@ function App() {
         ) : (
           <p>Loading Articles</p>
         )}
-        {isErrorArticles ? <p>An error ocurred while fetching articles</p> : null}
+        {isErrorArticles ? (
+          <p>An error ocurred while fetching articles</p>
+        ) : null}
+      </div>
+      <div>
+        <input
+          disabled={isLoadingAddProducts}
+          type="file"
+          onChange={handleProductsChange}
+        />
+        <button
+          disabled={isLoadingAddProducts}
+          onClick={() => addProducts(toAddProducts)}
+        >
+          Add Products
+        </button>
+        {isLoadingAddProducts ? <p>Adding products</p> : null}
+        {isErrorAddProducts ? <p>Products could not be created</p> : null}
+        {isSuccessAddProducts ? <p>Products created successfully</p> : null}
       </div>
     </div>
   );
