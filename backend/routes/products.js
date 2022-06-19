@@ -74,4 +74,41 @@ router.get('/product_id/:product_id', async (req, res) => {
   }
 });
 
+router.patch('/product_id/:product_id', async (req, res) => {
+  try {
+    const { product_id } = req.params;
+
+    if (!product_id) {
+      return res.status(400).json({ error: 'No product id provided' });
+    }
+
+    const product = await Product.findById(product_id).populate(
+      'contain_articles.art_id',
+    );
+
+    if (!product) {
+      return res
+        .status(400)
+        .json({ error: 'A product with that id does not exist' });
+    }
+
+    const { name, contain_articles } = req.body;
+
+    if (name) {
+      product.name = name;
+    }
+    if (contain_articles) {
+      product.contain_articles = contain_articles;
+    }
+
+    await product.save();
+
+    return res.json({ message: `Product ${product._id} updated successfully`, product });
+  } catch {
+    return res
+      .status(404)
+      .json({ error: 'Error while updating a product' });
+  }
+});
+
 module.exports = router;
