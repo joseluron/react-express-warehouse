@@ -97,6 +97,35 @@ describe('Api', () => {
       await Product.collection.drop();
     });
 
+    afterAll(async () => {
+      await Article.collection.drop();
+    });
+
+    const AVAILABLE_ARTICLES = {
+      inventory: [
+        {
+          art_id: '1',
+          name: 'leg',
+          stock: '12',
+        },
+        {
+          art_id: '2',
+          name: 'screw',
+          stock: '17',
+        },
+        {
+          art_id: '3',
+          name: 'seat',
+          stock: '2',
+        },
+        {
+          art_id: '4',
+          name: 'table top',
+          stock: '1',
+        },
+      ],
+    };
+
     const MOCK_PRODUCT = {
       name: 'Test Product',
       contain_articles: [
@@ -126,8 +155,8 @@ describe('Api', () => {
           amount_of: '8',
         },
         {
-          art_id: '3',
-          amount_of: '1',
+          art_id: '4',
+          amount_of: '2',
         },
       ],
     };
@@ -145,9 +174,7 @@ describe('Api', () => {
     });
 
     it('Creates multiple products', async () => {
-      const res = await request(app)
-        .post('/products/bulk')
-        .send(MOCK_PRODUCTS);
+      const res = await request(app).post('/products/bulk').send(MOCK_PRODUCTS);
 
       expect(res.body.message).toEqual('Products created successfully');
     });
@@ -171,6 +198,17 @@ describe('Api', () => {
       );
 
       expect(res.body.product._id).toEqual(createdProduct.body.product._id);
+    });
+
+    it('Gets available products', async () => {
+      await request(app).post('/articles/bulk').send(AVAILABLE_ARTICLES);
+
+      await request(app).post('/products').send(MOCK_PRODUCT);
+      await request(app).post('/products').send(MOCK_PRODUCT_2);
+
+      const res = await request(app).get('/products/available');
+
+      expect(res.body.availableProducts.length).toEqual(1);
     });
 
     it('Updates a product', async () => {
