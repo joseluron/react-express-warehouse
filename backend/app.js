@@ -4,6 +4,7 @@ const methodOverride = require('method-override');
 const cors = require('cors');
 
 const articlesRoutes = require('./routes/articles');
+const productsRoutes = require('./routes/products');
 
 const makeApp = () => {
   const app = express();
@@ -16,8 +17,9 @@ const makeApp = () => {
   app.get('/', async (req, res) => {
     await res.send('Welcome to react-express-warehouse');
   });
-  
+
   app.use('/articles', articlesRoutes);
+  app.use('/products', productsRoutes);
 
   return app;
 };

@@ -1,10 +1,10 @@
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var articleSchema = new Schema({
-  art_id: Number,
+const articleSchema = new Schema({
+  _id: String,
   name: String,
-  stock: Number,
+  stock: String,
 });
 
 module.exports = mongoose.model('Article', articleSchema);

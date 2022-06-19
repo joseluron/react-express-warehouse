@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
     }
 
     const article = new Article({
-      art_id,
+      _id: art_id,
       name,
       stock,
     });
@@ -40,7 +40,11 @@ router.post('/bulk', async (req, res) => {
       return res.status(400).json({ error: 'Inventory not provided' });
     }
 
-    return await Article.collection.insertMany(inventory, (err, articles) => {
+    const articles = inventory.map(article => {
+      return { _id: article.art_id, name: article.name, stock: article.stock };
+    });
+
+    return await Article.collection.insertMany(articles, (err, articles) => {
       if (err) {
         return res
           .status(400)
