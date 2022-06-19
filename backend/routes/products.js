@@ -1,5 +1,6 @@
 const express = require('express');
 const Product = require('../models/Product');
+const Article = require('../models/Article');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -174,9 +175,36 @@ router.delete('/product_id/:product_id', async (req, res) => {
 
     await Product.deleteOne({ product_id });
 
-    res.json({ message: 'Product deleted successfully' });
+    return res.json({ message: 'Product deleted successfully' });
   } catch {
-    res.status(404).json({ error: 'Error while deleting a product' });
+    return res.status(404).json({ error: 'Error while deleting a product' });
+  }
+});
+
+router.delete('/sell/product_id/:product_id', async (req, res) => {
+  try {
+    const { product_id } = req.params;
+
+    if (!product_id) {
+      return res.status(400).json({ error: 'No product id provided' });
+    }
+
+    const product = await Product.findById(product_id).populate(
+      'contain_articles.art_id',
+    );
+
+    for (let article of product.contain_articles) {
+      await Article.updateOne(
+        { _id: article.art_id._id },
+        { stock: article.art_id.stock - article.amount_of },
+      );
+    }
+
+    await Product.deleteOne({ product_id });
+
+    return res.json({ message: 'Product sold successfully' });
+  } catch {
+    return res.status(404).json({ error: 'Error while selling a product' });
   }
 });
 
