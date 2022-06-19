@@ -4,6 +4,7 @@ import {
   createProducts,
   fetchProducts,
   fetchAvailableProducts,
+  deleteSellingProduct,
 } from './services';
 
 export const useProducts = () => {
@@ -33,6 +34,18 @@ export const useProducts = () => {
     },
   });
 
+  const {
+    mutate: sellProduct,
+    isLoading: isLoadingSellProduct,
+    isError: isErrorSellProduct,
+    isSuccess: isSuccessSellProduct,
+  } = useMutation(data => deleteSellingProduct(data), {
+    onSuccess: () => {
+      refetchProducts();
+      refetchAvailableProducts();
+    },
+  });
+
   return {
     productsData,
     isLoadingProducts,
@@ -45,5 +58,9 @@ export const useProducts = () => {
     isLoadingAddProducts,
     isErrorAddProducts,
     isSuccessAddProducts,
+    sellProduct,
+    isLoadingSellProduct,
+    isErrorSellProduct,
+    isSuccessSellProduct,
   };
 };

@@ -24,6 +24,8 @@ function App() {
     isLoadingAddProducts,
     isErrorAddProducts,
     isSuccessAddProducts,
+    sellProduct,
+    isLoadingSellProduct
   } = useProducts();
 
   const [toAddArticles, setToAddArticles] = useState({});
@@ -106,7 +108,10 @@ function App() {
         <h2>Available Product</h2>
         {!isLoadingAvailableProducts && availableProductsData
           ? availableProductsData.data.availableProducts.map(product => (
-              <p key={product._id}>{product.name}</p>
+              <div key={product._id}>
+                <span>{product.name}</span>
+                <button disabled={isLoadingSellProduct} onClick={() => sellProduct(product._id)}>Sell</button>
+              </div>
             ))
           : null}
         {isErrorAvailableProducts ? (

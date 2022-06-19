@@ -15,3 +15,9 @@ export const get = async url => {
 
   return res;
 };
+
+export const erase = async url => {
+  const res = await axios.delete(url, buildOptions);
+
+  return res;
+};
