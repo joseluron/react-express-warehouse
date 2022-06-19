@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+
+import { useArticles } from './asyncData/';
 
 function App() {
+  const { addArticles, isLoadingAddArticles } = useArticles();
+
+  const [toAddArticles, setToAddArticles] = useState({})
+
+  const handleChange = (e) => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = (e) => {
+      setToAddArticles(JSON.parse(e.target.result));
+    };
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input disabled={isLoadingAddArticles} type="file" onChange={handleChange} />
+      <button disabled={isLoadingAddArticles} onClick={() => addArticles(toAddArticles)}>Add Articles</button>
+      {isLoadingAddArticles ? <p>Adding articles</p> : null}
     </div>
   );
 }

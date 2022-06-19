@@ -32,6 +32,12 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.post('/bulk', async (req, res) => {
+  if (req.body.inventory) {
+    console.log('Recieved inventory: ', req.body.inventory);
+  }
+});
+
 router.get('/', async (req, res) => {
   try {
     const articles = await Article.find();
@@ -98,7 +104,10 @@ router.patch('/art_id/:art_id', async (req, res) => {
 
     await article.save();
 
-    return res.json({ message: `Article ${articleId} updated successfully`, article });
+    return res.json({
+      message: `Article ${articleId} updated successfully`,
+      article,
+    });
   } catch (error) {
     return res.status(404).json({ error: 'Error while updating an article' });
   }
