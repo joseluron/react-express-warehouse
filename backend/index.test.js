@@ -28,12 +28,24 @@ describe('Api', () => {
       stock: 1234,
     };
 
+    const MOCK_INVENTORY = {
+      inventory: [MOCK_ARTICLE, MOCK_ARTICLE],
+    };
+
     it('Creates an article', async () => {
       const res = await request(app).post('/articles').send(MOCK_ARTICLE);
 
       expect(res.body.message).toEqual(
         `Article ${MOCK_ARTICLE.art_id} created successfully`,
       );
+    });
+
+    it('Creates multiple articles', async () => {
+      const res = await request(app)
+        .post('/articles/bulk')
+        .send(MOCK_INVENTORY);
+
+      expect(res.body.message).toEqual('Articles created successfully');
     });
 
     it('Gets all articles', async () => {
