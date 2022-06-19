@@ -51,7 +51,9 @@ router.post('/bulk', async (req, res) => {
       return res.json({ message: 'Products created successfully', products });
     });
   } catch {
-    return res.status(404).json({ error: 'Error while creating multiple products' });
+    return res
+      .status(404)
+      .json({ error: 'Error while creating multiple products' });
   }
 });
 
@@ -66,6 +68,35 @@ router.get('/', async (req, res) => {
     return res.json({ products });
   } catch {
     return res.status(404).json({ error: 'Error while fetching all products' });
+  }
+});
+
+router.get('/available', async (req, res) => {
+  try {
+    const products = await Product.find().populate('contain_articles.art_id');
+
+    if (!products) {
+      return res.status(400).json({ error: 'No products available' });
+    }
+
+    const availableProducts = products
+      .map(product => {
+        for (let articleDefinition of product.contain_articles) {
+          const articleStock = parseInt(articleDefinition.art_id.stock);
+          const neededArticleStock = parseInt(articleDefinition.amount_of);
+
+          if (neededArticleStock > articleStock) return null;
+        }
+
+        return product;
+      })
+      .filter(product => product !== null);
+
+    return res.json({ availableProducts });
+  } catch {
+    return res
+      .status(404)
+      .json({ error: 'Error while fetching avalable products' });
   }
 });
 
