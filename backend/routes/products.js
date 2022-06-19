@@ -36,4 +36,18 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const products = await Product.find().populate('contain_articles.art_id');
+
+    if (!products.length) {
+      return res.status(400).json({ error: 'No products found' });
+    }
+
+    return res.json({ products });
+  } catch {
+    return res.status(404).json({ error: 'Error while fetching all products' });
+  }
+});
+
 module.exports = router;
