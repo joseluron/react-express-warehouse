@@ -7,3 +7,7 @@ export const createProducts = async products => {
 export const fetchProducts = async () => {
   return get('http://localhost:8080/products');
 };
+
+export const fetchAvailableProducts = async () => {
+  return get('http://localhost:8080/products/available');
+};

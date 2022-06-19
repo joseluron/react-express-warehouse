@@ -17,6 +17,9 @@ function App() {
     productsData,
     isLoadingProducts,
     isErrorProducts,
+    availableProductsData,
+    isLoadingAvailableProducts,
+    isErrorAvailableProducts,
     addProducts,
     isLoadingAddProducts,
     isErrorAddProducts,
@@ -97,6 +100,17 @@ function App() {
         )}
         {isErrorProducts ? (
           <p>An error ocurred while fetching products</p>
+        ) : null}
+      </div>
+      <div>
+        <h2>Available Product</h2>
+        {!isLoadingAvailableProducts && availableProductsData
+          ? availableProductsData.data.availableProducts.map(product => (
+              <p key={product._id}>{product.name}</p>
+            ))
+          : null}
+        {isErrorAvailableProducts ? (
+          <p>An error ocurred while fetching available products</p>
         ) : null}
       </div>
     </div>

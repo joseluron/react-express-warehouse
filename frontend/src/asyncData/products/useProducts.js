@@ -1,6 +1,10 @@
 import { useMutation, useQuery } from 'react-query';
 
-import { createProducts, fetchProducts } from './services';
+import {
+  createProducts,
+  fetchProducts,
+  fetchAvailableProducts,
+} from './services';
 
 export const useProducts = () => {
   const {
@@ -11,18 +15,31 @@ export const useProducts = () => {
   } = useQuery(['products'], () => fetchProducts());
 
   const {
+    data: availableProductsData,
+    isLoading: isLoadingAvailableProducts,
+    isError: isErrorAvailableProducts,
+    refetch: refetchAvailableProducts,
+  } = useQuery(['availableProducts'], () => fetchAvailableProducts());
+
+  const {
     mutate: addProducts,
     isLoading: isLoadingAddProducts,
     isError: isErrorAddProducts,
     isSuccess: isSuccessAddProducts,
   } = useMutation(data => createProducts(data), {
-    onSuccess: refetchProducts,
+    onSuccess: () => {
+      refetchProducts();
+      refetchAvailableProducts();
+    },
   });
 
   return {
     productsData,
     isLoadingProducts,
     isErrorProducts,
+    availableProductsData,
+    isLoadingAvailableProducts,
+    isErrorAvailableProducts,
     refetchProducts,
     addProducts,
     isLoadingAddProducts,
