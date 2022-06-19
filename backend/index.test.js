@@ -131,5 +131,17 @@ describe('Api', () => {
 
       expect(res.body.products.length).toEqual(2);
     });
+
+    it('Gets a single product', async () => {
+      const createdProduct = await request(app)
+        .post('/products')
+        .send(MOCK_PRODUCT).body.product;
+
+      const res = await await request(app).get(
+        `/products/product_id/${createdProduct._id}`,
+      );
+
+      expect(res.body.product._id).toEqual(createdProduct._id);
+    });
   });
 });
