@@ -18,7 +18,7 @@ const Home = () => {
       <h2>Available Products</h2>
       {!isLoadingAvailableProducts && availableProductsData
         ? availableProductsData.data.availableProducts.map(product => (
-            <div className="product-container">
+            <div key={product._id} className="product-container">
               <Product
                 product={product}
                 sellProduct={sellProduct}
@@ -28,7 +28,9 @@ const Home = () => {
           ))
         : null}
       {isErrorAvailableProducts ? (
-        <p>An error ocurred while fetching available products</p>
+        <p>No products available</p>
+      ) : isLoadingAvailableProducts ? (
+        <p>Loading products...</p>
       ) : null}
     </>
   );

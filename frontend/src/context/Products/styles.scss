@@ -1,0 +1,41 @@
+.add-product-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+
+  .upload-file-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .upload-file-container {
+      background: black;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .upload-file-label {
+        padding: 5px;
+        color: white;
+        cursor: pointer;
+
+        input {
+          display: none;
+        }
+      }
+    }
+
+    .file-name {
+      padding-left: 5px;
+    }
+  }
+
+}
+
+.products-list {
+  .product {
+    padding-bottom: 5px;
+  }
+}

@@ -93,6 +93,10 @@ router.get('/available', async (req, res) => {
       })
       .filter(product => product !== null);
 
+    if (!availableProducts.length) {
+      return res.status(400).json({ error: 'No products available' });
+    }
+
     return res.json({ availableProducts });
   } catch {
     return res

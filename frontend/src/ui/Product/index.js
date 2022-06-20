@@ -5,7 +5,6 @@ import './styles.scss';
 import Button from '../Button';
 
 const Product = ({ product, sellProduct, isLoadingSellProduct }) => {
-  console.log(product);
   const { name, contain_articles } = product;
 
   return (
@@ -16,7 +15,9 @@ const Product = ({ product, sellProduct, isLoadingSellProduct }) => {
         </div>
         <div className="product-articles">
           {contain_articles.map(article => (
-            <span className="article">{article.art_id.name}</span>
+            <span key={article.art_id._id} className="article">
+              {article.art_id.name}
+            </span>
           ))}
           {sellProduct ? (
             <Button
