@@ -1,30 +1,18 @@
 import Proptypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
-const Layout = ({ children }) => {
-  const ROUTES = [
-    { path: '/', to: 'Home' },
-    { path: '/products', to: 'Products' },
-    { path: '/articles', to: 'Articles' },
-  ];
+import Header from '../../ui/Header';
 
+const Layout = ({ routes, children }) => {
   return (
     <div>
-      <header>
-        <nav>
-          {ROUTES.map(route => (
-            <Link key={route.to} to={route.path}>
-              {route.to}
-            </Link>
-          ))}
-        </nav>
-      </header>
+      <Header routes={routes} />
       <div>{children}</div>
     </div>
   );
 };
 
 Layout.propTypes = {
+  routes: Proptypes.array.isRequired,
   children: Proptypes.node.isRequired,
 };
 

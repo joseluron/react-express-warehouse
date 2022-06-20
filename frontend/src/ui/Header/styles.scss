@@ -1,0 +1,21 @@
+.header-wrapper {
+  padding: 10px;
+  height: fit-content;
+  border-bottom: 1px solid #c1bebe;
+
+  .links-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img {
+      width: 50px;
+    }
+
+    a {
+      padding: 0 5px;
+      text-decoration: none;
+      color: black;
+    }
+  }
+}

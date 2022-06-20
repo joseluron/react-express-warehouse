@@ -6,13 +6,19 @@ import Articles from './context/Articles';
 import Products from './context/Products';
 
 function App() {
+  const ROUTES = [
+    { path: '/', to: 'Home', element: <Home /> },
+    { path: '/products', to: 'Products', element: <Products /> },
+    { path: '/articles', to: 'Articles', element: <Articles /> },
+  ];
+
   return (
     <div>
-      <Layout>
+      <Layout routes={ROUTES}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/articles" element={<Articles />} />
-          <Route path="/products" element={<Products />} />
+          {ROUTES.map(route => (
+            <Route key={route.to} path={route.path} element={route.element} />
+          ))}
         </Routes>
       </Layout>
     </div>
