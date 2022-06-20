@@ -13,7 +13,7 @@ function App() {
   ];
 
   return (
-    <div>
+    <>
       <Layout routes={ROUTES}>
         <Routes>
           {ROUTES.map(route => (
@@ -21,7 +21,7 @@ function App() {
           ))}
         </Routes>
       </Layout>
-    </div>
+    </>
   );
 }
 

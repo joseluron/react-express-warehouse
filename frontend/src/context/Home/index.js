@@ -1,6 +1,8 @@
-import { useState } from 'react';
-
 import { useProducts } from '../../asyncData';
+
+import './styles.scss';
+
+import Product from '../../ui/Product/index.js';
 
 const Home = () => {
   const {
@@ -12,27 +14,23 @@ const Home = () => {
   } = useProducts();
 
   return (
-    <div>
-      <div>
-        <h2>Available Product</h2>
-        {!isLoadingAvailableProducts && availableProductsData
-          ? availableProductsData.data.availableProducts.map(product => (
-              <div key={product._id}>
-                <span>{product.name}</span>
-                <button
-                  disabled={isLoadingSellProduct}
-                  onClick={() => sellProduct(product._id)}
-                >
-                  Sell
-                </button>
-              </div>
-            ))
-          : null}
-        {isErrorAvailableProducts ? (
-          <p>An error ocurred while fetching available products</p>
-        ) : null}
-      </div>
-    </div>
+    <>
+      <h2>Available Products</h2>
+      {!isLoadingAvailableProducts && availableProductsData
+        ? availableProductsData.data.availableProducts.map(product => (
+            <div className="product-container">
+              <Product
+                product={product}
+                sellProduct={sellProduct}
+                isLoadingSellProduct={isLoadingSellProduct}
+              />
+            </div>
+          ))
+        : null}
+      {isErrorAvailableProducts ? (
+        <p>An error ocurred while fetching available products</p>
+      ) : null}
+    </>
   );
 };
 

@@ -1,13 +1,15 @@
 import Proptypes from 'prop-types';
 
+import './styles.scss';
+
 import Header from '../../ui/Header';
 
 const Layout = ({ routes, children }) => {
   return (
-    <div>
+    <>
       <Header routes={routes} />
-      <div>{children}</div>
-    </div>
+      <div className="main">{children}</div>
+    </>
   );
 };
 
