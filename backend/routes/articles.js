@@ -105,7 +105,7 @@ router.patch('/art_id/:art_id', async (req, res) => {
 
     const { art_id, name, stock } = req.body;
 
-    const article = await Article.findOne({ art_id: articleId });
+    const article = await Article.findOne({ _id: articleId });
 
     if (!article) {
       return res

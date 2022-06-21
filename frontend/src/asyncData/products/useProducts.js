@@ -42,7 +42,6 @@ export const useProducts = () => {
     isSuccess: isSuccessSellProduct,
   } = useMutation(data => deleteSellingProduct(data), {
     onSuccess: () => {
-      console.log("Producto vendido")
       removeAvailableProductsCache();
       refetchProducts();
       refetchAvailableProducts();
@@ -56,7 +55,8 @@ export const useProducts = () => {
     availableProductsData,
     isLoadingAvailableProducts,
     isErrorAvailableProducts,
-    refetchProducts,
+    removeAvailableProductsCache,
+    refetchAvailableProducts,
     addProducts,
     isLoadingAddProducts,
     isErrorAddProducts,

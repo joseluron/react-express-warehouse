@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import './styles.scss';
 
@@ -12,10 +12,23 @@ const Articles = () => {
     isLoadingArticles,
     isErrorArticles,
     addArticles,
+    refetchArticles,
+    removeArticlesCache,
     isLoadingAddArticles,
     isErrorAddArticles,
     isSuccessAddArticles,
+    updateArticle,
+    isLoadingUpdateArticle,
   } = useArticles();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await removeArticlesCache();
+      await refetchArticles();
+    };
+
+    fetchData();
+  }, []);
 
   const [toAddArticles, setToAddArticles] = useState({});
   const [fileName, setFileName] = useState('');
@@ -62,7 +75,13 @@ const Articles = () => {
         {!isLoadingArticles && articlesData
           ? articlesData.data.articles.map(article => (
               <div key={article._id} className="article">
-                <Article name={article.name} stock={article.stock} />
+                <Article
+                  name={article.name}
+                  art_id={article._id}
+                  stock={article.stock}
+                  updateArticle={updateArticle}
+                  isLoadingUpdateArticle={isLoadingUpdateArticle}
+                />
               </div>
             ))
           : null}

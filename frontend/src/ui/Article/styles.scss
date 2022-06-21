@@ -12,4 +12,12 @@
     align-items: center;
     padding: 5px 3px;
   }
+
+  .article-stock {
+    input {
+      border-radius: 5px;
+      border: 1px solid black;
+      margin-right: 5px;
+    }
+  }
 }
