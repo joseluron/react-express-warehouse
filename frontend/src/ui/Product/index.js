@@ -2,6 +2,7 @@ import Proptypes from 'prop-types';
 
 import './styles.scss';
 
+import Article from '../Article';
 import Button from '../Button';
 
 const Product = ({ product, sellProduct, isLoadingSellProduct }) => {
@@ -15,9 +16,12 @@ const Product = ({ product, sellProduct, isLoadingSellProduct }) => {
         </div>
         <div className="product-articles">
           {contain_articles.map(article => (
-            <span key={article.art_id._id} className="article">
-              {article.art_id.name}
-            </span>
+            <Article
+              key={article.art_id._id}
+              name={article.art_id.name}
+              amount={article.amount_of}
+              simple
+            />
           ))}
           {sellProduct ? (
             <Button

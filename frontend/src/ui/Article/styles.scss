@@ -1,0 +1,15 @@
+.article-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px 3px;
+
+  &-simple {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 3px;
+  }
+}
