@@ -6,13 +6,14 @@ import Article from '../Article';
 import Button from '../Button';
 
 const Product = ({ product, sellProduct, isLoadingSellProduct }) => {
-  const { name, contain_articles } = product;
+  const { name, price, contain_articles } = product;
 
   return (
     <>
       <div className="product-wrapper">
         <div className="product-title">
           <span>{name}</span>
+          {price ? <span className="price">{price}€</span> : null}
         </div>
         <div className="product-articles">
           {contain_articles.map(article => (

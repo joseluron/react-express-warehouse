@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   try {
-    const { name, contain_articles } = req.body;
+    const { name, price, contain_articles } = req.body;
 
     const errors = [
       !name ? 'Product name not provided' : null,
@@ -22,6 +22,9 @@ router.post('/', async (req, res) => {
       name,
       contain_articles,
     });
+    if (price) {
+      product.price = price;
+    }
     await product.save();
 
     return res.json({
@@ -200,11 +203,16 @@ router.delete('/sell/product_id/:product_id', async (req, res) => {
     for (let article of product.contain_articles) {
       await Article.updateOne(
         { _id: article.art_id._id },
-        { stock: article.art_id.stock - article.amount_of },
+        {
+          stock:
+            article.art_id.stock - article.amount_of >= 0
+              ? article.art_id.stock - article.amount_of
+              : 0,
+        },
       );
     }
 
-    await Product.deleteOne({ product_id });
+    await Product.findOneAndDelete({ _id: product_id });
 
     return res.json({ message: 'Product sold successfully' });
   } catch {

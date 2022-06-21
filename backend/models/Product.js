@@ -8,6 +8,7 @@ const containArticlesSchema = new Schema({
 
 const productSchema = new Schema({
   name: String,
+  price: String,
   contain_articles: [containArticlesSchema],
 });
 
