@@ -1,20 +1,26 @@
 import Proptypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import './styles.scss';
 
 import warehouseIcon from '../../assets/img/warehouse.png';
 
 const Header = ({ routes }) => {
+  const location = useLocation();
+
   return (
     <header className="header-wrapper">
       <nav className="links-wrapper">
-        <Link to={'/home'}>
+        <Link to={'/'}>
           <img src={warehouseIcon} />
         </Link>
         <div>
           {routes.map(route => (
-            <Link key={route.to} to={route.path}>
+            <Link
+              className={location.pathname === route.path ? 'underlined' : ''}
+              key={route.to}
+              to={route.path}
+            >
               {route.to}
             </Link>
           ))}
