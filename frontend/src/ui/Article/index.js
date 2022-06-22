@@ -17,6 +17,17 @@ const Article = ({
   const [articleStock, setArticleStock] = useState(stock);
   const handleStockChange = e => setArticleStock(e.target.value);
 
+  const handleUpdateArticle = (art_id, stock) => {
+    const toUpdateStock = parseInt(stock);
+
+    if (!isNaN(toUpdateStock)) {
+      return updateArticle({
+        art_id,
+        articleData: { stock },
+      });
+    }
+  };
+
   return (
     <>
       <div
@@ -34,12 +45,7 @@ const Article = ({
             <Button
               disabled={isLoadingUpdateArticle}
               title="Update Stock"
-              onClick={() =>
-                updateArticle({
-                  art_id,
-                  articleData: { stock: articleStock },
-                })
-              }
+              onClick={() => handleUpdateArticle(art_id, articleStock)}
             />
           </div>
         ) : null}
