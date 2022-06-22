@@ -30,16 +30,18 @@ const Articles = () => {
     fetchData();
   }, []);
 
-  const [toAddArticles, setToAddArticles] = useState({});
+  const [toAddArticles, setToAddArticles] = useState('');
   const [fileName, setFileName] = useState('');
   const handleArticlesChange = e => {
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], 'UTF-8');
     fileReader.onload = e => {
-      setToAddArticles(JSON.parse(e.target.result));
+      setToAddArticles(e.target.result);
     };
     setFileName(e.target.files[0].name);
   };
+
+  const handleArticlesAreaChange = e => setToAddArticles(e.target.value);
 
   return (
     <>
@@ -61,10 +63,13 @@ const Articles = () => {
         {fileName ? (
           <Button
             title={'Add articles'}
-            onClick={() => addArticles(toAddArticles)}
+            onClick={() => addArticles(JSON.parse(toAddArticles))}
             disabled={isLoadingAddArticles}
           />
         ) : null}
+      </div>
+      <div className="add-articles-area">
+        <textarea value={toAddArticles} onChange={handleArticlesAreaChange} placeholder="Add an article here" />
       </div>
       <div className="add-articles-info">
         {isLoadingAddArticles ? <p>Adding articles</p> : null}
@@ -88,7 +93,7 @@ const Articles = () => {
         {isErrorArticles ? (
           <p>An error ocurred while fetching articles</p>
         ) : isLoadingArticles ? (
-          <p>Loading Articles</p>
+          <p>Loading Articles...</p>
         ) : null}
       </div>
     </>

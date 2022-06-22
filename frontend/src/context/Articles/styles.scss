@@ -34,6 +34,16 @@
 
 }
 
+.add-articles-area {
+  display: flex;
+  padding-bottom: 10px;
+
+  textarea {
+    width: 100%;
+    min-height: 100px;
+  }
+}
+
 .articles-list {
   display: flex;
   flex-direction: column;

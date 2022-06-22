@@ -45,6 +45,7 @@ const Article = ({
         ) : null}
         {amount ? <span>Amount of: {amount}</span> : null}
       </div>
+      {isLoadingUpdateArticle ? <span>Updating article...</span> : null}
     </>
   );
 };
