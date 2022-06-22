@@ -15,7 +15,13 @@ const Home = () => {
 
   return (
     <>
-      <h2>Available Products</h2>
+      <h2>
+        {availableProductsData &&
+        availableProductsData.data.availableProducts.length
+          ? `${availableProductsData.data.availableProducts.length} `
+          : ''}{' '}
+        Available Products
+      </h2>
       {!isLoadingAvailableProducts && availableProductsData
         ? availableProductsData.data.availableProducts.map(product => (
             <div key={product._id} className="product-container">
