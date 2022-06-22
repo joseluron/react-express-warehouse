@@ -17,16 +17,18 @@ const Products = () => {
     isSuccessAddProducts,
   } = useProducts();
 
-  const [toAddProducts, setToAddProducts] = useState({});
+  const [toAddProducts, setToAddProducts] = useState('');
   const [fileName, setFileName] = useState('');
   const handleProductsChange = e => {
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], 'UTF-8');
     fileReader.onload = e => {
-      setToAddProducts(JSON.parse(e.target.result));
+      setToAddProducts(e.target.result);
     };
     setFileName(e.target.files[0].name);
   };
+
+  const handleProductsAreaChange = e => setToAddProducts(e.target.value);
 
   return (
     <>
@@ -48,10 +50,17 @@ const Products = () => {
         {fileName ? (
           <Button
             title={'Add products'}
-            onClick={() => addProducts(toAddProducts)}
+            onClick={() => addProducts(JSON.parse(toAddProducts))}
             disabled={isLoadingAddProducts}
           />
         ) : null}
+      </div>
+      <div className="add-product-area">
+        <textarea
+          value={toAddProducts}
+          onChange={handleProductsAreaChange}
+          placeholder="Add a product here"
+        />
       </div>
       <div className="add-product-info">
         {isLoadingAddProducts ? <p>Adding products</p> : null}
