@@ -13,6 +13,7 @@ export const useProducts = () => {
     isLoading: isLoadingProducts,
     isError: isErrorProducts,
     refetch: refetchProducts,
+    remove: removeProductsCache,
   } = useQuery(['products'], () => fetchProducts());
 
   const {
@@ -30,7 +31,9 @@ export const useProducts = () => {
     isSuccess: isSuccessAddProducts,
   } = useMutation(data => createProducts(data), {
     onSuccess: () => {
+      removeProductsCache();
       refetchProducts();
+      removeAvailableProductsCache();
       refetchAvailableProducts();
     },
   });
@@ -42,8 +45,9 @@ export const useProducts = () => {
     isSuccess: isSuccessSellProduct,
   } = useMutation(data => deleteSellingProduct(data), {
     onSuccess: () => {
-      removeAvailableProductsCache();
+      removeProductsCache();
       refetchProducts();
+      removeAvailableProductsCache();
       refetchAvailableProducts();
     },
   });
