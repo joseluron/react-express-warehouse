@@ -91,7 +91,7 @@ const Articles = () => {
             ))
           : null}
         {isErrorArticles ? (
-          <p>An error ocurred while fetching articles</p>
+          <p>No articles in the database</p>
         ) : isLoadingArticles ? (
           <p>Loading Articles...</p>
         ) : null}
